@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cars_available</title>
+</head>
+<body>
+<h1>AVAILABLE CAR COMPANIES</h1>
+        <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 50%;
+            }
+
+            td, th {
+                border: 5px solid #dddddd;
+                text-align: left;
+                padding: 13px;
+            }
+        </style>
+    <table>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Price</th>
+            <th >Action</th>
+        </tr>
+
+        <tr th:each="car:${cars}">
+            <td th:text="${car.getBrand()}">Tesla </td>
+            <td th:text="${car.getModel()}"> USA</td>
+            <td th:text="${car.getPrice()}">$50000</td>
+
+            <td>
+                <a th:href="${'/cars/edit?id='+car.getId()}" style="color:darkgreen">EDIT</a><br><br>
+                <a th:href="${'/cars/delete?id='+car.getId()}" style="color:red">DELETE</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

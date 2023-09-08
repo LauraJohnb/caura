@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<h1>CAR RENTAL</h1>
+<form action="/login" method="POST">
+    <label for="fname">Email:</label><br>
+    <input type="text" id="fname" name="username" value=""><br>
+    <label for="lname">Password:</label><br>
+    <input type="password" id="lname" name="password" value=""><br><br>
+    <input type="submit" value="Submit">
+    <p th:if="${message!=null}" th:text="${message}" style="color:red"></p>
+</form>
+<body>
+
+</body>
+</html>
