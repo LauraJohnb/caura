@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User List Page</title>
+</head>
+<body>
+<h1>User_list</h1>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 50%;
+    }
+
+    td, th {
+        border: 5px solid #dddddd;
+        text-align: left;
+        padding: 13px;
+    }
+</style>
+<table>
+    <tr>
+        <th>firstName</th>
+        <th>lastName</th>
+        <th>Email</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="user:${users}">
+        <td th:text="${user.getFirstName()}">Timo </td>
+        <td th:text="${user.getLastName()}"> John</td>
+        <td th:text="${user.getEmail()}">timothy@gmail.com</td>
+
+        <td>
+            <a th:href="${'/user/edit?id='+user.getId()}" style="color:darkgreen">EDIT</a><br><br>
+               <a th:href="${'/user/delete?id='+user.getId()}" style="color:red">DELETE</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

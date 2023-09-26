@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>booking_list</title>
+</head>
+<body>
+<h1>BOOKING LIST</h1>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 50%;
+    }
+
+    td, th {
+        border: 5px solid #dddddd;
+        text-align: left;
+        padding: 13px;
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <th>lastName</th>
+            <th>Email</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:each="booking:${bookings}">
+        <td th:text="${booking.getUser().getLastName()}"></td>
+        <td th:text="${booking.getUser().getEmail()}"></td>
+        <td th:text="${booking.getCar().getBrand()}"></td>
+        <td th:text="${booking.getCar().getPrice()}"></td>
+        <td th:text="${booking.getStart()}"></td>
+        <td th:text="${booking.getEnd()}"></td>
+        <td>
+            <a th:href="${'/bookings/edit?id='+booking.getId()}" style="color:darkgreen">EDIT</a><br><br>
+            <a th:href="${'/bookings/delete?id='+booking.getId()}" style="color:red">DELETE</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form action="/bookings" method="POST">
+</form>
+</body>
+</html>

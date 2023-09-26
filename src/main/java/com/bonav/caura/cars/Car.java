@@ -18,5 +18,9 @@ public class Car {
     String Color;
     String Fuel_type;
     int Price;
+
 }
+
+
+
 

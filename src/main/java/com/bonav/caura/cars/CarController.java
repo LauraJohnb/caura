@@ -3,19 +3,27 @@ package com.bonav.caura.cars;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Slf4j
 @AllArgsConstructor
 //@RequestMapping("/car")
+
 public class CarController {
     private final CarService carService;
-
+    private final Environment env;
     @PostMapping(value = "/cars/register")
     public String processRegistration(Car carregistration, Model model, HttpServletRequest request) {
         try {
@@ -57,15 +65,27 @@ public class CarController {
     }
 
     @GetMapping("cars/edit")
-    public String editCar(Long id,Model model) {
+    public String editCar(Long id, Model model) {
         try {
-            Optional<Car>car=carService.findById(id);
+            Optional<Car> car = carService.findById(id);
             car.ifPresent(value -> model.addAttribute("car", value));
         } catch (Exception e) {
             log.error(e.getMessage(), e.getClass(), e.getLocalizedMessage(), e);
         }
         return "car_rental";
     }
-
-
+    @RequestMapping(value = "/cars/register",method=RequestMethod.POST,consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String saveCar(@ModelAttribute Car car, @RequestPart List<MultipartFile> files) throws Exception {
+        files.forEach((file)->{
+            try {
+                File _file = new File(env.getProperty("files_location") + file.getOriginalFilename());
+                log.info(file.getOriginalFilename());
+                Files.copy(file.getInputStream(), _file.toPath());
+            }catch(IOException e){
+                log.error(e.getMessage(),e.getClass().getSimpleName(),e);
+            }
+        });
+        carService.save(car);
+        return "redirect:/cars";
+    }
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .dropbtn {
+      background-color: #3498DB;
+      color: white;
+      padding:8px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dropbtn:hover, .dropbtn:focus {
+      background-color: #2980B9;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      overflow: auto;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: black;
+
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown a:hover {background-color: #ddd;}
+
+    .show {display: block;}
+  </style>
+  <title>bookings</title>
+</head>
+<body style="background-color:white;">
+
+
+<h2>BOOKINGS</h2>
+<form action="/booking" method="POST">
+  <input type="number" name="id" th:value="${(booking!=null)?booking.getId():0}" style="display:none">
+<div>
+  <label for="car">Select a car</label>
+  <select name="car" id="car">
+    <option th:each="car:${cars}" th:value="${car.getId()}" th:label="${car.getBrand()+' '+car.getModel()}" th:selected="${(booking!=null&&booking.getCar().getId()==car.getId())?'selected':null}">
+    </option>
+  </select>
+</div>
+<br>
+
+<div>
+  <label for="user">Select a user</label>
+  <select name="user" id="user">
+    <option th:each="user:${users}" th:value="${user.getId()}" th:label="${user.getFirstName()+' '+user.getLastName()}">
+    </option>
+</select><br><br>
+  <div>
+    <label for="startdate">Start Date</label>
+    <input type="date" id="startdate" name="start" th:value="${(booking!=null)?#strings.defaultString(booking.getStart().toString(),''):''}"><br><br>
+    <label for="enddate">End Date</label>
+    <input type="date" id="enddate" name="end" th:value="${(booking!=null)?#strings.defaultString(booking.getEnd().toString(),''):''}">
+  </div>
+</div>
+<br>
+<div>
+ <input type="submit" value="Submit">
+  <p th:if="${message!=null}" th:text="${message}" style="margin-top:20px"></p>
+</div>
+</form>
+</body>
+</html>

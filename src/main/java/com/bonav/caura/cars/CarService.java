@@ -8,14 +8,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+
 @AllArgsConstructor
 @Slf4j
 public class CarService {
-    private final CarRepository carRepository;
+    private CarRepository carRepository;
 
-    public Optional<Car>findById(long id){
+    public Optional<Car> findBy(long id) {
         return carRepository.findById(id);
     }
+
     public boolean deleteCar(Long carId) throws Exception {
         try {
             boolean exists = carRepository.existsById(carId);
@@ -41,6 +43,7 @@ public class CarService {
 
             throw new Exception();
         }
+
     }
 
     public List<Car> getAllCars() {
@@ -48,14 +51,19 @@ public class CarService {
 
     }
 
-    public boolean editCar(Car car) {
-        try{
-            carRepository.save(car);
-            return true;
-        }catch(Exception e){
-            log.error(e.getMessage(),e.getClass().getSimpleName(),e);
-            return false;
+    public Optional<Car> findById(Long id) {
+        return carRepository.findById(id);
+    }
+
+    public Car save(Car car) throws Exception{
+        try {
+            car = carRepository.save(car);
+            return car;
         }
+        catch (Exception e){
+            log.error(e.getMessage());
+            throw new Exception();
+        }
+
     }
 }
-
